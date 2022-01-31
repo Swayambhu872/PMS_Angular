@@ -1,0 +1,268 @@
+
+
+
+<div class="sidebar">
+  <a class="active" href="#PatientDetailsScreen">Go back to Patient Details Screen</a>
+  <a href="#EmpoyeeDetailsScreen">Go to Employee Details</a>
+  <a href="#PatientRegistrationScreen">Go to Patient Registration</a>
+  <a href="#UserManagementScreen">Go to User Management </a>
+  <a href="#PatientHistoryScreen">Visit Patient History </a>
+  <a href="#SchedulingScreen">Scheduling </a>
+  <a href="#Go to HomepageScreen">Go to Homepage </a>
+</div>
+
+<!-- Page content -->
+<div class="content">
+
+<form [formGroup]="patientDetailsForm" class="form-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Help us to know you better</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        
+          <div class="col-md-6" id="title">
+              <mat-radio-group  formControlName="title" class="margin-left">
+                  <mat-radio-button value="mr."> Mr. </mat-radio-button>
+                  <mat-radio-button value="miss."> Ms. </mat-radio-button>
+                  <mat-radio-button value="miss."> Mrs. </mat-radio-button>
+                  <mat-radio-button value="miss."> Dr. </mat-radio-button>
+              </mat-radio-group>
+              <mat-error [hidden]="isNotSelected" *ngIf="patientDetailsForm.controls['title'].invalid">
+                Kindly select the title.
+              </mat-error>
+          </div> 
+    
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="full-width" >
+              <input  id="firstName" formControlName= "firstName" matInput placeholder="First name"  >
+              <mat-error *ngIf="patientDetailsForm.controls['firstName'].hasError('required')">
+                First name cannot be empty.
+              </mat-error>
+              <mat-error *ngIf="patientDetailsForm.controls['firstName'].hasError('minlength')">
+                Please don't use abbreviations.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <input  id="lastname" formControlName="lastName" matInput placeholder="Last name" >
+              <mat-error *ngIf="patientDetailsForm.controls['lastName'].hasError('required')">
+                First name cannot be empty.
+              </mat-error>
+              <mat-error *ngIf="patientDetailsForm.controls['lastName'].hasError('minlength')">
+                Please don't use abbreviations.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 top-padding">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Select DOB</mat-label>
+                <input  formControlName="dob"   matInput [matDatepicker]="picker" (ngModelChange)="ageCalculator()">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="patientDetailsForm.controls['dob'].hasError('required')">
+                  Please enter a valid date
+                </mat-error>
+                <mat-error *ngIf="patientDetailsForm.controls['dob'].hasError('invalidDate')">
+                  Please enter a valid date of birth
+                </mat-error>
+            </mat-form-field>                  
+        </div>
+
+          <div class="col-md-6 top-padding" id="age">
+            <mat-form-field class="full-width">
+              <input  id="age" formControlName="age" matInput placeholder="age" required>
+              <mat-error *ngIf="patientDetailsForm.controls['age'].invalid &&( patientDetailsForm.controls['age'].dirty || patientDetailsForm.controls['age'].touched)">
+                Age is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          </div>
+      
+        <div class="row">
+            <div class="col-md-6" id="gender">
+                <mat-radio-group  formControlName="gender" class="margin-left">
+                    <mat-radio-button value="male"> Male </mat-radio-button>
+                    <mat-radio-button value="female"> Female </mat-radio-button>
+
+                </mat-radio-group>
+                <mat-error  [hidden]="isNotSelected" *ngIf="patientDetailsForm.controls['gender'].invalid">
+                 Gender is a required field.
+                </mat-error>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width">
+                <input  id="race" formControlName="race" matInput placeholder="Race">
+                <mat-error *ngIf="patientDetailsForm.controls['race'].hasError('required')">
+                  Race field cannot be empty.
+                </mat-error>
+                <mat-error *ngIf="patientDetailsForm.controls['race'].hasError('minlength')">
+                  Please don't use abbreviations.
+                </mat-error>
+                <mat-error *ngIf="patientDetailsForm.controls['race'].hasError('maxlength')">
+                  Exceeding the max length.
+                </mat-error>
+                
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <input  id="ethnicity" formControlName="ethnicity" matInput placeholder="Ethnicity">
+               <mat-error *ngIf="patientDetailsForm.controls['ethnicity'].hasError('required')">
+                  Ethnicity field cannot be empty.
+                </mat-error>
+                <mat-error *ngIf="patientDetailsForm.controls['ethnicity'].hasError('minlength')">
+                  Please don't use abbreviations.
+                </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <input  formControlName="languagesKnown" matInput placeholder="Languages" required (ngModelChange)="languageValidator()">
+              <mat-error *ngIf="patientDetailsForm.controls['languagesKnown'].hasError('required')">
+                Languages Known cannot be empty.
+              </mat-error>
+              <mat-error *ngIf="patientDetailsForm.controls['languagesKnown'].hasError('minlength')">
+                Please don't use abbreviations.
+              </mat-error>
+              <mat-error *ngIf="patientDetailsForm.controls['languagesKnown'].hasError('maxlength')">
+                Exceeding the max length.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6" id="emailDiv">
+            <mat-form-field class="full-width">
+              <input formControlName="email" matInput placeholder="Email">
+              <mat-error *ngIf="patientDetailsForm.controls['email'].invalid &&( patientDetailsForm.controls['email'].dirty || patientDetailsForm.controls['email'].touched)" >
+                Please enter your email address e.g. <span id="egEmail">exampleusername@xyzdomain,com</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-6">
+            <mat-form-field class="full-width">
+              <textarea  formControlName="homeAddress" matInput placeholder="Address" ></textarea>
+              <mat-error *ngIf="patientDetailsForm.controls['homeAddress'].hasError('required') || patientDetailsForm.controls['homeAddress'].hasError('minlength')" >
+                Please provide the postal address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <input formControlName="countryCode" matInput placeholder="Country/Area code" >
+              <mat-error *ngIf="patientDetailsForm.controls['countryCode'].invalid &&( patientDetailsForm.controls['countryCode'].dirty || patientDetailsForm.controls['countryCode'].touched)" >
+                Please provide the Country/Area code.
+              </mat-error>
+              <span  [hidden] = "incorrectCountryCode"  style="color: red; font-size: 10px; margin-top: 0%; padding-top: 0%;">
+                Please provide the correct country/area code.
+              </span>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <input formControlName="contactNumber" matInput placeholder="Contact Number"  >
+              <mat-error *ngIf="patientDetailsForm.controls['contactNumber'].hasError('required')" >
+                Please provide the telephone number
+              </mat-error>
+              <mat-error *ngIf="patientDetailsForm.controls['contactNumber'].hasError('pattern')" >
+                Please validate the phone number. Telephone number has 7 number of digits.
+              </mat-error>
+              
+            </mat-form-field>
+          </div>
+        </div>    
+        <mat-card-header>
+          <mat-card-title>Emergency Contact Details</mat-card-title>
+        </mat-card-header>
+        <br/> <br/>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-radio-group  formControlName="eTitle" class="margin-left">
+                <mat-radio-button value="mr."> Mr. </mat-radio-button>
+                <mat-radio-button value="miss."> Ms. </mat-radio-button>
+                <mat-radio-button value="miss."> Mrs. </mat-radio-button>
+                <mat-radio-button value="miss."> Dr. </mat-radio-button>
+            </mat-radio-group>
+            <mat-error [hidden]="eTitleNotSelected" *ngIf="patientDetailsForm.controls['eTitle'].hasError('required')">
+              Kindly select the title.
+            </mat-error> 
+        </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="saveForm()"  mat-raised-button color="primary">Save</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+
+
+
+
+  <!-- <form [formGroup]="patientDetailsForm" class="form-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Emergency Contact Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <br/> <br/>
+        <div class="row">
+          <div class="col-md-6" id="eTitle">
+            <mat-radio-group  formControlName="etitle" class="margin-left">
+                <mat-radio-button value="mr."> Mr. </mat-radio-button>
+                <mat-radio-button value="miss."> Ms. </mat-radio-button>
+                <mat-radio-button value="miss."> Mrs. </mat-radio-button>
+                <mat-radio-button value="miss."> Dr. </mat-radio-button>
+            </mat-radio-group>
+            <mat-error [hidden]="eTitleNotSelected" *ngIf="patientDetailsForm.controls['eTitle'].invalid">
+              Kindly select the title.
+            </mat-error> 
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="full-width" >
+              <input formControlName="eFirstName" matInput placeholder="First name"   (ngModelChange)="eFnameValidator()">
+              <mat-error >
+                First name cannot be empty.
+              </mat-error>
+              <span  [hidden] = "efnameNotEmpty"  style="color: red; font-size: 10px; margin-top: 0%; padding-top: 0%;">
+                Please don't use abbreviations.
+              </span>
+            </mat-form-field>
+          </div> 
+
+          <div class="col-md-6">
+            <mat-form-field class="full-width" >
+              <input formControlName="eLastName" matInput placeholder="Last name"  (ngModelChange)="eLnameValidator()">
+              <mat-error >
+                First name cannot be empty.
+              </mat-error>
+              <span  [hidden] = "elnameNotEmpty"  style="color: red; font-size: 10px; margin-top: 0%; padding-top: 0%;">
+                Please don't use abbreviations.
+              </span>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="saveRelativeForm()"  mat-raised-button color="primary">Save</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
+ -->
